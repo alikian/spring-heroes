@@ -22,7 +22,7 @@ The following guides illustrate how to use some features concretely:
 
 ### Build Docker image using Spring boot
 ```
-% mvn spring-boot:build-image -Dspring-boot.build-image.imageName=alikian/spring-oauth2
+mvn spring-boot:build-image -Dspring-boot.build-image.imageName=alikian/spring-oauth2
 ```
 
 ### Run Docker image

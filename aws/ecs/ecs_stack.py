@@ -4,7 +4,7 @@ from aws_cdk import (aws_ecs as ecs,
                      aws_ec2 as ec2,
                      Environment,
                      aws_ecs_patterns as ecs_patterns,
-                     Stack)
+                     Stack, CfnParameter)
 from constructs import Construct
 
 
@@ -12,6 +12,9 @@ class EcsStack(Stack):
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
+
+        docker_image_name = CfnParameter(self, "dockerImageName", type="String",
+                                  description="The name of dockerImage")
 
         domain_zone = route53.HostedZone.from_lookup(self, 'Zone', domain_name="alikian.me")
         heroes_acm = acm.Certificate(self, "Certificate",
@@ -24,17 +27,18 @@ class EcsStack(Stack):
 
         cluster = ecs.Cluster(self, "HeroesCluster", vpc=vpc)
 
+        image_options = ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
+            image=ecs.ContainerImage.from_registry(docker_image_name.value_as_string),
+            container_port=8080
+        )
+
         service = ecs_patterns.ApplicationLoadBalancedFargateService(self, "HeroesService",
                                                                      cluster=cluster,  # Required
                                                                      cpu=512,  # Default is 256
                                                                      desired_count=1,  # Default is 1
                                                                      domain_name="heroes.alikian.me",
                                                                      domain_zone=domain_zone,
-                                                                     task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
-                                                                         image=ecs.ContainerImage.from_registry(
-                                                                             "alikian/spring-oauth2"),
-                                                                         container_port=8080
-                                                                     ),
+                                                                     task_image_options=image_options,
                                                                      redirect_http=True,
                                                                      certificate=heroes_acm,
                                                                      memory_limit_mib=2048,  # Default is 512

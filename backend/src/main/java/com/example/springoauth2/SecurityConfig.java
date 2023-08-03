@@ -4,13 +4,17 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -20,14 +24,25 @@ import org.springframework.security.web.server.csrf.XorServerCsrfTokenRequestAtt
 import org.springframework.security.web.util.matcher.AndRequestMatcher;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import org.springframework.util.StringUtils;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.function.Supplier;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
+
+    @Value("${oauth2.success-url}")
+    String successUrl;
+
+    @Value("${spring.security.oauth2.client.registration.github.clientId}")
+    String test;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         CookieCsrfTokenRepository tokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
@@ -39,8 +54,12 @@ public class SecurityConfig {
         CsrfTokenRequestHandler requestHandler = delegate::handle;
 
         http
+                .formLogin(form -> form
+                        .loginPage("/")
+                        .permitAll()
+                )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/error", "/webjars/**","/actuator/**").permitAll()
+                        .requestMatchers("/*.html","/*.js","/*.css","/*.ico", "/error", "/webjars/**","/actuator/**").permitAll()
                         .anyRequest().authenticated()
                 )
 //                .csrf(AbstractHttpConfigurer::disable)
@@ -48,10 +67,15 @@ public class SecurityConfig {
                         .csrfTokenRepository(tokenRepository)
                         .csrfTokenRequestHandler(requestHandler)
                 )
+                .cors(Customizer.withDefaults())
                 .logout(l -> {
                     l.logoutSuccessUrl("/").permitAll()
                             .addLogoutHandler(new SecurityContextLogoutHandler());
                 })
+//                .oauth2Login(httpSecurityOAuth2LoginConfigurer -> {
+//                    httpSecurityOAuth2LoginConfigurer.successHandler(
+//                            new SimpleUrlAuthenticationSuccessHandler(successUrl));
+//                });
                 .oauth2Login(Customizer.withDefaults());
 
         return http.build();
@@ -102,4 +126,14 @@ public class SecurityConfig {
             filterChain.doFilter(request, response);
         }
     }
+
+//    @Bean
+//    CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedOrigins(Arrays.asList("*"));
+//        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
 }
