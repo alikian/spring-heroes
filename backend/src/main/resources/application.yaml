@@ -4,29 +4,13 @@ spring:
       client:
         registration:
           github:
-# prod
-#            clientId: 2f34ea46fa982a2a0320
-#            clientSecret: 3ba2d781d546937ac7c61a35f7d6f1489c81fedc
-# local
-#            clientId: 7cd0d12608c0fea9d820
-#            clientSecret: 50d7dda611fd8cf1121abd8381f6e56a4a303fa1
             clientId: ${github.clientId}
             clientSecret: ${github.clientSecret}
           google:
             client-id: ${google.clientId}
             client-secret: ${google.clientSecret}
   config:
-    import: 'optional:aws-secretsmanager:/secrets/HeroesSecrets'
-  cloud:
-    aws:
-      endpoint: http://localhost:4566
-
-oauth2:
-  success-url: https://heroes.alikian.me
-
-
-
-
+    import: 'optional:aws-secretsmanager:/HeroesSecrets'
 
 management:
   endpoints:

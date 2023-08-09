@@ -2,6 +2,7 @@ from aws_cdk import (aws_ecs as ecs,
                      aws_route53 as route53,
                      aws_certificatemanager as acm,
                      aws_ec2 as ec2,
+                     aws_secretsmanager as sm,
                      Environment,
                      aws_ecs_patterns as ecs_patterns,
                      Stack, CfnParameter)
@@ -15,6 +16,10 @@ class EcsStack(Stack):
 
         docker_image_name = CfnParameter(self, "dockerImageName", type="String",
                                   description="The name of dockerImage")
+        secrets_manager_name = CfnParameter(self, "secretManagerName", type="String",
+                                         description="The name of secretManagerName")
+
+        secret=sm.Secret.from_secret_name_v2(self, "mysecret",secret_name=secrets_manager_name.value_as_string)
 
         domain_zone = route53.HostedZone.from_lookup(self, 'Zone', domain_name="alikian.me")
         heroes_acm = acm.Certificate(self, "Certificate",
@@ -43,4 +48,5 @@ class EcsStack(Stack):
                                                                      certificate=heroes_acm,
                                                                      memory_limit_mib=2048,  # Default is 512
                                                                      public_load_balancer=True)  # Default is True
+        secret.grant_read(service.service.task_definition.task_role)
         service.target_group.configure_health_check(path="/actuator/health", port="8080")
