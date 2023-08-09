@@ -37,8 +37,6 @@ import java.util.function.Supplier;
 @Configuration
 public class SecurityConfig {
 
-    @Value("${oauth2.success-url}")
-    String successUrl;
 
     @Value("${spring.security.oauth2.client.registration.github.clientId}")
     String test;
@@ -72,10 +70,6 @@ public class SecurityConfig {
                     l.logoutSuccessUrl("/").permitAll()
                             .addLogoutHandler(new SecurityContextLogoutHandler());
                 })
-//                .oauth2Login(httpSecurityOAuth2LoginConfigurer -> {
-//                    httpSecurityOAuth2LoginConfigurer.successHandler(
-//                            new SimpleUrlAuthenticationSuccessHandler(successUrl));
-//                });
                 .oauth2Login(Customizer.withDefaults());
 
         return http.build();
