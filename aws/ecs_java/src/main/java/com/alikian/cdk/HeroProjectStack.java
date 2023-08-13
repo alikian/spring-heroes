@@ -58,7 +58,7 @@ public class HeroProjectStack extends Stack {
                         .validation(CertificateValidation.fromDns(iHostedZone))
                         .build());
 
-        Vpc vpc = new Vpc(this, "HeroesVpc", VpcProps.builder().maxAzs(3).build());
+        Vpc vpc = new Vpc(this, "HeroesVpc", VpcProps.builder().maxAzs(2).build());
 
         Cluster cluster= new Cluster(this,"HeroesCluster",
                 ClusterProps.builder().vpc(vpc).build());

@@ -1,20 +1,32 @@
 package com.example.springoauth2;
 
-import com.alikian.LocalstackManager;
+import io.github.alikian.LocalstackManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
 
 @Configuration
-@Profile({"test","local"})
+@Profile({"test", "local"})
 public class AwsConfig {
+
+    LocalstackManager localstackManager;
+
+    public AwsConfig() {
+        localstackManager = LocalstackManager.getInstance();
+    }
+
     @Primary
     @Bean
     public DynamoDbClient getDynamoDbClient() {
-        return LocalstackManager.getInstance().getAwsClientBuilder().getDynamoDbClient();
+        return localstackManager.getDynamoDbClient();
+    }
+
+    public SecretsManagerClient getSecretsManagerClient(){
+        return localstackManager.getSecretsManagerClient();
     }
 
     @Primary
