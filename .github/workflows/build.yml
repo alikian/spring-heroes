@@ -39,4 +39,6 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven      
-    # - run: npm test
+    - name: Build with Maven
+      working-directory: ./backend
+      run: mvn -B package --file pom.xml
