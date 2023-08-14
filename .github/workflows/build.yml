@@ -27,7 +27,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - name: install frontend packages
-      working-directory: ./fronend
+      working-directory: ./frontend
       run: npm ci
     - name: buil front end
       working-directory: ./fronend
