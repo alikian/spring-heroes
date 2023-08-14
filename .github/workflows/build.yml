@@ -33,4 +33,10 @@ jobs:
     - name: buil front end
       working-directory: ./frontend
       run: npm run build --if-present
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven      
     # - run: npm test
