@@ -53,9 +53,6 @@
             </exclusions>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/software.amazon.awscdk/cdk-cloudformation-include -->
-
-        <!-- Localstack -->
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
@@ -87,7 +84,7 @@
         <dependency>
             <groupId>io.github.alikian</groupId>
             <artifactId>localstack-loader</artifactId>
-            <version>1.0.21</version>
+            <version>1.0.22</version>
         </dependency>
 
         <dependency>

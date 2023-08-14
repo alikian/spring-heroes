@@ -1,1 +1,1 @@
-org.springframework.boot.BootstrapRegistryInitializer=com.alikian.LocalstackBootstrapConfiguration
+org.springframework.boot.BootstrapRegistryInitializer=io.alikian.LocalstackBootstrapConfiguration

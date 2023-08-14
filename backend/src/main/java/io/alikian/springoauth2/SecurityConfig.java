@@ -1,4 +1,4 @@
-package com.example.springoauth2;
+package io.alikian.springoauth2;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -1,8 +1,0 @@
-activateOnProfiles:
-  - test
-  - local
-imageName: localstack/localstack:2.2.0
-
-
-
-

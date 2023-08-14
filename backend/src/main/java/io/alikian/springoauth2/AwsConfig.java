@@ -1,6 +1,7 @@
-package com.example.springoauth2;
+package io.alikian.springoauth2;
 
 import io.github.alikian.LocalstackManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -16,7 +17,8 @@ public class AwsConfig {
     LocalstackManager localstackManager;
 
     public AwsConfig() {
-        localstackManager = LocalstackManager.getInstance();
+        localstackManager = LocalstackManager.builder()
+                .withSimpleCloudformation("simple-cloudformation.yaml").buildSimple();
     }
 
     @Primary

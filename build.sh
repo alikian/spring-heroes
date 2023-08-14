@@ -10,7 +10,6 @@ echo build Docker Image spring-oauth2:$tag
 #mvn spring-boot:build-image -Dspring-boot.build-image.imageName=alikian/spring-oauth2:$tag
 mvn clean install
 docker buildx build --platform=linux/amd64 . -t alikian/spring-oauth2:$tag
-#rm ~/git/spring-heroes/backend/src/main/resources/static/*
 docker push alikian/spring-oauth2:$tag
 cd ~/git/spring-heroes/aws/ecs_java/
 mvn package

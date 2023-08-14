@@ -1,6 +1,5 @@
-package com.example.springoauth2;
+package io.alikian.springoauth2;
 
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;

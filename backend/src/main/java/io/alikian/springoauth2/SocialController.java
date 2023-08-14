@@ -1,4 +1,4 @@
-package com.example.springoauth2;
+package io.alikian.springoauth2;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

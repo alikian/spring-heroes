@@ -1,4 +1,4 @@
-package com.example.springoauth2;
+package io.alikian.springoauth2;
 
 import java.util.UUID;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;

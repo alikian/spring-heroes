@@ -1,4 +1,4 @@
-package com.alikian;
+package io.alikian;
 
 import io.github.alikian.LocalstackManager;
 import lombok.extern.slf4j.Slf4j;
@@ -12,14 +12,13 @@ import java.util.List;
 
 @Slf4j
 public class LocalstackBootstrapConfiguration implements BootstrapRegistryInitializer {
-    Yaml yaml = new Yaml();
 
     @Override
     public void initialize(BootstrapRegistry registry) {
-        List<String> profiles = Arrays.asList("test", "local");
+        List<String> profiles = Arrays.asList("local");
         String profile = System.getProperty("spring.profiles.active", "unknown");
         if (profiles.contains(profile)) {
-            LocalstackManager localstackManager = LocalstackManager.builder().buildSimple();
+            LocalstackManager localstackManager = LocalstackManager.builder().withSimpleCloudformation("simple-cloudformation.yaml").buildSimple();
             SecretsManagerClient secretsClient = localstackManager.getSecretsManagerClient();
             registry.register(SecretsManagerClient.class, context -> {
                 return secretsClient;

@@ -1,4 +1,4 @@
-package com.example.springoauth2;
+package io.alikian.springoauth2;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
