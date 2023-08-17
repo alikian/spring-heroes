@@ -24,9 +24,7 @@ public class LocalstackBootstrapConfiguration implements BootstrapRegistryInitia
                             .withSimpleCloudformation("simple-cloudformation.yaml")
                             .buildSimple();
             SecretsManagerClient secretsClient = localstackManager.getSecretsManagerClient();
-            registry.register(SecretsManagerClient.class, context -> {
-                return secretsClient;
-            });
+            registry.register(SecretsManagerClient.class, context -> secretsClient);
 
         }
 
