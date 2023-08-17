@@ -5,6 +5,7 @@ import io.alikian.springoauth2.HeroService;
 import io.alikian.springoauth2.SpringOauth2Application;
 import io.github.alikian.LocalstackManager;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ class SpringOauth2ApplicationTests {
     @Autowired
     HeroService heroService;
 
-    @BeforeEach
-    public void setup() {
+    @BeforeAll
+    public static void  setup() {
         LocalstackManager localstackManager = LocalstackManager.builder()
                 .withSimpleCloudformation("simple-cloudformation.yaml").buildSimple();
     }

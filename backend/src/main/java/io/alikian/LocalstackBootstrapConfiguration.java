@@ -15,7 +15,7 @@ public class LocalstackBootstrapConfiguration implements BootstrapRegistryInitia
 
     @Override
     public void initialize(BootstrapRegistry registry) {
-        List<String> profiles = Arrays.asList("local","test");
+        List<String> profiles = Arrays.asList("local");
         String profile = System.getProperty("spring.profiles.active", "unknown");
         if (profiles.contains(profile)) {
             LocalstackManager localstackManager =
