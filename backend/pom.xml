@@ -15,7 +15,7 @@
     <description>spring-oauth2</description>
     <properties>
         <java.version>17</java.version>
-        <awspring.version>3.0.1</awspring.version>
+        <awspring.version>3.0.2</awspring.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -32,6 +32,10 @@
         <!-- Spring Cloud AWS Depencies -->
         <dependency>
             <groupId>io.awspring.cloud</groupId>
+            <artifactId>spring-cloud-aws-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.awspring.cloud</groupId>
             <artifactId>spring-cloud-aws-starter</artifactId>
         </dependency>
         <dependency>
@@ -42,6 +46,11 @@
             <groupId>io.awspring.cloud</groupId>
             <artifactId>spring-cloud-aws-starter-dynamodb</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.awspring.cloud</groupId>
+            <artifactId>spring-cloud-aws-test</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>cloudformation</artifactId>
@@ -84,7 +93,7 @@
         <dependency>
             <groupId>io.github.alikian</groupId>
             <artifactId>localstack-loader</artifactId>
-            <version>1.0.22</version>
+            <version>1.0.26</version>
         </dependency>
 
         <dependency>

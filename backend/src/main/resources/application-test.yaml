@@ -1,2 +1,6 @@
-
-
+spring:
+  cloud:
+    aws:
+      endpoint: http://localhost:4566/
+      region:
+        static: us-west-2

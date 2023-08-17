@@ -15,10 +15,14 @@ public class LocalstackBootstrapConfiguration implements BootstrapRegistryInitia
 
     @Override
     public void initialize(BootstrapRegistry registry) {
-        List<String> profiles = Arrays.asList("local");
+        List<String> profiles = Arrays.asList("local","test");
         String profile = System.getProperty("spring.profiles.active", "unknown");
         if (profiles.contains(profile)) {
-            LocalstackManager localstackManager = LocalstackManager.builder().withSimpleCloudformation("simple-cloudformation.yaml").buildSimple();
+            LocalstackManager localstackManager =
+                    LocalstackManager
+                            .builder()
+                            .withSimpleCloudformation("simple-cloudformation.yaml")
+                            .buildSimple();
             SecretsManagerClient secretsClient = localstackManager.getSecretsManagerClient();
             registry.register(SecretsManagerClient.class, context -> {
                 return secretsClient;

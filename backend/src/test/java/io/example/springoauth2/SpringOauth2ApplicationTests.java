@@ -1,24 +1,45 @@
 package io.example.springoauth2;
 
-import io.alikian.springoauth2.AwsConfig;
-import org.junit.Assert;
+import io.alikian.springoauth2.Hero;
+import io.alikian.springoauth2.HeroService;
+import io.alikian.springoauth2.SpringOauth2Application;
+import io.github.alikian.LocalstackManager;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
-@SpringBootTest(classes = AwsConfig.class)
+@SpringBootTest(classes = {SpringOauth2Application.class})
 @ActiveProfiles("test")
 class SpringOauth2ApplicationTests {
 
-	@Autowired
-	DynamoDbClient dynamoDbClient;
+    @Autowired
+    HeroService heroService;
 
-	@Test
-	void contextLoads() {
-		Assert.assertNotNull(dynamoDbClient);
-	}
+    @BeforeEach
+    public void setup() {
+        LocalstackManager localstackManager = LocalstackManager.builder()
+                .withSimpleCloudformation("simple-cloudformation.yaml").buildSimple();
+    }
+
+    @Test
+    void saveAndReadTest() {
+        Assertions.assertNotNull(heroService);
+        Hero savedHero = heroService.saveHero(new Hero("Ali"));
+        Hero readHero = heroService.getHero(savedHero.getId());
+        Assertions.assertEquals(savedHero.getName(), readHero.getName());
+    }
+
+    @Test
+    void deleteTest() {
+        Assertions.assertNotNull(heroService);
+        Hero savedHero = heroService.saveHero(new Hero("Ali"));
+        heroService.deleteHero(savedHero.getId());
+        Hero readHero = heroService.getHero(savedHero.getId());
+        Assertions.assertNull(readHero);
+    }
 
 }
 

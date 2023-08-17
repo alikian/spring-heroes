@@ -26,7 +26,7 @@ public class HeroService {
     }
 
     public Hero getHero(String keyVal) {
-        AttributeValue attributeValue = AttributeValue.builder().n(keyVal).build();
+        AttributeValue attributeValue = AttributeValue.builder().s(keyVal).build();
         Key key = Key.builder().partitionValue(attributeValue).build();
         return dynamoDbTemplate.load(key, Hero.class);
     }
