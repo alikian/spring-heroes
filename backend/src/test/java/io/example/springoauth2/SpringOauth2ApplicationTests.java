@@ -13,7 +13,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest(classes = {SpringOauth2Application.class},
-        properties = {"spring.cloud.aws.credentials.access-key=noop","spring.cloud.aws.credentials.secret-key=noop"})
+        properties = {
+                "spring.cloud.aws.credentials.access-key=noop",
+                "spring.cloud.aws.credentials.secret-key=noop",
+                "spring.cloud.aws.endpoint=http://localhost:4566/",
+                "spring.cloud.aws.region.static=us-west-2"
+        })
 @ActiveProfiles("test")
 class SpringOauth2ApplicationTests {
 
@@ -21,7 +26,7 @@ class SpringOauth2ApplicationTests {
     HeroService heroService;
 
     @BeforeAll
-    public static void  setup() {
+    public static void setup() {
         LocalstackManager localstackManager = LocalstackManager.builder()
                 .withSimpleCloudformation("simple-cloudformation.yaml").buildSimple();
     }
