@@ -12,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest(classes = {SpringOauth2Application.class})
+@SpringBootTest(classes = {SpringOauth2Application.class},
+        properties = {"spring.cloud.aws.credentials.access-key=noop","spring.cloud.aws.credentials.secret-key=noop"})
 @ActiveProfiles("test")
 class SpringOauth2ApplicationTests {
 
