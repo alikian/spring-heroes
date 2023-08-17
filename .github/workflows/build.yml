@@ -41,4 +41,4 @@ jobs:
         cache: maven      
     - name: Build with Maven
       working-directory: ./backend
-      run: mvn -B verify --file pom.xml -Dspring.profiles.active=test
+      run: mvn -B verify --file pom.xml -Dspring.profiles.active=test -U
